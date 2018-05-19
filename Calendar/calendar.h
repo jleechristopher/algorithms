@@ -44,11 +44,16 @@ public:
     Calendar()
     {
     }
-    // doesn't check for duplicates. could add isExistingEvent() check later that checks for identical events
-    //   meaning it checks if the personid and eventid are the same as another 
-    // doesn't check end time is after start time
     bool addEvent(const int personId,const int eventId,const int64_t start_time,const int64_t end_time)
     {
+        if (contains(personId, eventId))
+        {
+            return false;
+        }
+        if (end_time <= start_time)
+        {
+            return false;
+        }
         m_events.push_back(Event(personId, eventId, start_time, end_time));
         return true;
     }
@@ -108,7 +113,6 @@ public:
         int concurrent = 0;
         for (int ii = 0; ii < filteredPts.size(); ++ii)
         {
-            std::cout << "Timepoint: " << filteredPts[ii].m_time << std::endl;
             if (filteredPts[ii].m_endpointSide == LEFT)
             {
                 ++concurrent;
@@ -131,7 +135,6 @@ public:
                     // the next endpoint is guaranteed to be a LEFT if we are in a blank interval
                     if (filteredPts[ii+1].m_time - filteredPts[ii].m_time >= duration)
                     {
-                        std::cout << "CHECKING OPEN INTERVAL\n";
                         return true; // TODO return an event with precise timing
                     }                    
                 }
@@ -148,6 +151,18 @@ public:
 
 private:
     std::vector<Event> m_events;
+
+    bool contains(const int64_t personId, const int64_t eventId)
+    {
+        for (auto& it : m_events)
+        {
+            if ((it.m_personId == personId) && (it.m_eventId == eventId))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     bool filterEvents(std::vector<Timepoint>& filteredPts, const std::vector<Event>& person, 
         const int64_t duration, const int64_t between_start, const int64_t between_end)

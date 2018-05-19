@@ -9,6 +9,7 @@ class CalendarTests final : public UnitTests
 protected:
     void RunTests() final
     {
+        ADD_TEST(CalendarTests::illegalEventsTest);
         ADD_TEST(CalendarTests::singleCollisionTest);
         ADD_TEST(CalendarTests::nonoverlappingTest);
         ADD_TEST(CalendarTests::sequentialEventsTest);
@@ -20,6 +21,7 @@ protected:
     }
 
 private:
+    static bool illegalEventsTest();
 	static bool singleCollisionTest();
     static bool nonoverlappingTest();
     static bool sequentialEventsTest();

@@ -3,6 +3,16 @@
 
 Test_Registrar<CalendarTests> CalendarTests::registrar;
 
+bool CalendarTests::illegalEventsTest()
+{
+	Calendar c;
+	VERIFY_TRUE(c.addEvent(1, 1, 1, 2));
+	VERIFY_FALSE(c.addEvent(1, 1, 1, 2));
+	VERIFY_TRUE(c.addEvent(1, 3, 1, 2));
+	VERIFY_FALSE(c.addEvent(1, 5, 3, 2));
+	return true;
+}
+
 bool CalendarTests::singleCollisionTest()
 {
 	Calendar c;
