@@ -2,7 +2,6 @@
 #define __MY_CALENDAR_TESTS__
 
 #include <test_helpers.h>
-#include <chrono>
 
 class CalendarTests final : public UnitTests
 {
@@ -18,6 +17,10 @@ protected:
         ADD_TEST(CalendarTests::singleOpenIntervalTest);
         ADD_TEST(CalendarTests::overlappingStartTest);
         ADD_TEST(CalendarTests::falseInterval);
+        ADD_TEST(CalendarTests::openBeginning);
+        ADD_TEST(CalendarTests::twoEmpty);
+        ADD_TEST(CalendarTests::allEmpty);
+        ADD_TEST(CalendarTests::multipleCalendars);
     }
 
 private:
@@ -30,6 +33,10 @@ private:
     static bool singleOpenIntervalTest();
     static bool overlappingStartTest();
     static bool falseInterval();
+    static bool openBeginning();
+    static bool twoEmpty();
+    static bool allEmpty();
+    static bool multipleCalendars();
 
     static Test_Registrar<CalendarTests> registrar;
 };

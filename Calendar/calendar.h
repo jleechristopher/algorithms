@@ -1,8 +1,12 @@
 // CALENDAR
-// 
+// This program solves a few problems in the context of calendar scheduling. Given a list of events
+// containing a start/end time: 
+// 1) Find the maximum number of collisions at any given timepoint
+// 2) Find an open interval of given duration
+//
 // Author: Chris Lee
 // Date: May 18th, 2018
-// Last edited: May 18th, 2018
+// Last edited: May 19th, 2018
 
 #ifndef __MY_CALENDAR__
 #define __MY_CALENDAR__
@@ -95,21 +99,104 @@ public:
         return maxConcurrent - 1; // 
     }
 
-    bool findMeetingSlot(const int64_t duration, const int64_t between_start, const int64_t between_end, 
+    // returns [0,0] if no event found
+    std::vector<int64_t> findMeetingSlot(const int64_t duration, const int64_t between_start, const int64_t between_end, 
         const std::vector<Event>& person1, const std::vector<Event>& person2)
     {
+        std::vector<int64_t> output;
         if ((between_end - between_start) < duration)
         {
-            return false;
+            output.push_back(0);
+            output.push_back(0);
+            return output;
         }
+
         if (person1.empty() && person2.empty())
         {
-            return true;
+            output.push_back(between_start);
+            output.push_back(between_start + duration);
+            return output;
         }
+
         std::vector<Timepoint> filteredPts;
         filterEvents(filteredPts, person1, duration, between_start, between_end);
         filterEvents(filteredPts, person2, duration, between_start, between_end);
         std::sort(filteredPts.begin(),filteredPts.end(), less);
+        if (findInterval(filteredPts, output, duration, between_start, between_end))
+        {
+            return output;
+        }
+        else
+        {
+            output.push_back(0);
+            output.push_back(0);
+            return output;            
+        }
+    }
+
+    // returns [0,0] if no event found
+    std::vector<int64_t> findMeetingSlot(const int64_t duration, const int64_t between_start, const int64_t between_end, 
+        const std::vector<std::vector<Event>* >& people)
+    {
+        std::vector<int64_t> output;
+        if ((between_end - between_start) < duration)
+        {
+            output.push_back(0);
+            output.push_back(0);
+            return output;
+        }
+
+        int numEmpty = 0;
+        for (auto& it : people)
+        {
+            if (it->empty())
+            {
+                ++numEmpty;
+            }
+        }
+
+        if (numEmpty == people.size())
+        {
+            output.push_back(between_start);
+            output.push_back(between_start + duration);
+            return output;
+        }
+
+        std::vector<Timepoint> filteredPts;
+        for (auto it : people)
+        {
+            filterEvents(filteredPts, *it, duration, between_start, between_end);
+        }
+
+        std::sort(filteredPts.begin(),filteredPts.end(), less);
+        if (findInterval(filteredPts, output, duration, between_start, between_end))
+        {
+            return output;
+        }
+        else
+        {
+            output.push_back(0);
+            output.push_back(0);
+            return output;            
+        }
+    }
+
+    std::vector<Event>* getCalendarPtr()
+    {
+        return &m_events;
+    }
+
+    std::vector<Event>& getCalendar()
+    {
+        return m_events;
+    }
+
+private:
+    std::vector<Event> m_events;
+
+    bool findInterval(std::vector<Timepoint>& filteredPts, std::vector<int64_t>& output, const int64_t duration, 
+        const int64_t between_start, const int64_t between_end)
+    {
         int concurrent = 0;
         for (int ii = 0; ii < filteredPts.size(); ++ii)
         {
@@ -127,6 +214,8 @@ public:
                 {
                     if ((between_end - filteredPts[ii].m_time) >= duration)
                     {
+                        output.push_back(filteredPts[ii].m_time);
+                        output.push_back(filteredPts[ii].m_time + duration);
                         return true;
                     }
                 }
@@ -135,22 +224,25 @@ public:
                     // the next endpoint is guaranteed to be a LEFT if we are in a blank interval
                     if (filteredPts[ii+1].m_time - filteredPts[ii].m_time >= duration)
                     {
-                        return true; // TODO return an event with precise timing
+                        output.push_back(filteredPts[ii].m_time);
+                        output.push_back(filteredPts[ii].m_time + duration);
+                        return true;
                     }                    
                 }
             }
+            else if (ii == 0) // check for open space before the first event
+            {
+                if ((filteredPts[ii].m_time - between_start) >= duration)
+                {
+                    output.push_back(between_start);
+                    output.push_back(between_start + duration);
+                    return true;                    
+                }
+            }
         }
-
         return false;
-    }
 
-    std::vector<Event>& getCalendar()
-    {
-        return m_events;
     }
-
-private:
-    std::vector<Event> m_events;
 
     bool contains(const int64_t personId, const int64_t eventId)
     {
