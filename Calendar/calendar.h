@@ -44,7 +44,9 @@ public:
     Calendar()
     {
     }
-    // doesn't check for duplicates. could add isExistingEvent() check later
+    // doesn't check for duplicates. could add isExistingEvent() check later that checks for identical events
+    //   meaning it checks if the personid and eventid are the same as another 
+    // doesn't check end time is after start time
     bool addEvent(const int personId,const int eventId,const int64_t start_time,const int64_t end_time)
     {
         m_events.push_back(Event(personId, eventId, start_time, end_time));
@@ -88,12 +90,52 @@ public:
         return maxConcurrent - 1; // 
     }
 
-    bool findMeetingSlot(int64_t duration, int64_t between_start, int64_t between_end, 
+    bool findMeetingSlot(const int64_t duration, const int64_t between_start, const int64_t between_end, 
         const std::vector<Event>& person1, const std::vector<Event>& person2)
     {
-        if (between_end - between_start < duration)
+        if ((between_end - between_start) < duration)
         {
             return false;
+        }
+        if (person1.empty() && person2.empty())
+        {
+            return true;
+        }
+        std::vector<Timepoint> filteredPts;
+        filterEvents(filteredPts, person1, duration, between_start, between_end);
+        filterEvents(filteredPts, person2, duration, between_start, between_end);
+        std::sort(filteredPts.begin(),filteredPts.end(), less);
+        int concurrent = 0;
+        for (int ii = 0; ii < filteredPts.size(); ++ii)
+        {
+            std::cout << "Timepoint: " << filteredPts[ii].m_time << std::endl;
+            if (filteredPts[ii].m_endpointSide == LEFT)
+            {
+                ++concurrent;
+            }
+            else // = RIGHT
+            {
+                --concurrent;
+            }
+            if (concurrent == 0)
+            {
+                if (ii + 1 == filteredPts.size()) // final endpoint
+                {
+                    if ((between_end - filteredPts[ii].m_time) >= duration)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    // the next endpoint is guaranteed to be a LEFT if we are in a blank interval
+                    if (filteredPts[ii+1].m_time - filteredPts[ii].m_time >= duration)
+                    {
+                        std::cout << "CHECKING OPEN INTERVAL\n";
+                        return true; // TODO return an event with precise timing
+                    }                    
+                }
+            }
         }
 
         return false;
@@ -107,11 +149,68 @@ public:
 private:
     std::vector<Event> m_events;
 
+    bool filterEvents(std::vector<Timepoint>& filteredPts, const std::vector<Event>& person, 
+        const int64_t duration, const int64_t between_start, const int64_t between_end)
+    {
+        for (auto& it : person)
+        {
+            if (it.m_start_time > between_end)
+            {
+                continue;
+            }
+            // new events can start at the same time others end, so if end_time == between_start we can ignore it
+            else if (it.m_end_time <= between_start) 
+            {
+                continue;
+            }
+            else
+            {
+                if (it.m_start_time <= between_start)
+                {
+                    if (it.m_end_time <= between_end)
+                    {
+                        filteredPts.push_back(Timepoint(between_start, LEFT)); // make cutoff at between_start
+                        filteredPts.push_back(Timepoint(it.m_end_time, RIGHT));                        
+                    }
+                    else // event ends after between_start
+                    {
+                        return false; // event spans the entire desired time interval
+                    }
+                }
+                else // event starts after between_start
+                {
+                    if (it.m_end_time <= between_end)
+                    {
+                        filteredPts.push_back(Timepoint(it.m_start_time, LEFT));
+                        filteredPts.push_back(Timepoint(it.m_end_time, RIGHT));                                                
+                    }
+                    else // event ends after between_end
+                    {
+                        filteredPts.push_back(Timepoint(it.m_start_time, LEFT));
+                        filteredPts.push_back(Timepoint(between_end, RIGHT)); // make cutoff at between_end                                                                      
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     static bool less(const Timepoint& objA, const Timepoint& objB)
     {
         if (objA.m_time < objB.m_time)
         {
             return true;
+        }
+        else if (objA.m_time == objB.m_time)
+        {
+            if (objA.m_endpointSide != objB.m_endpointSide)
+            {
+                if (objA.m_endpointSide == LEFT)
+                {
+                    return true; // prioritize LEFT endpoints to appear earlier than RIGHT endpoints
+                }
+                return false;
+            }
         }
         return false;
     }

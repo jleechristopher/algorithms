@@ -43,7 +43,7 @@ bool CalendarTests::openCalendarTest()
 	return true;
 }
 
-bool CalendarTests::closedCalendarTest()
+bool CalendarTests::impossibleIntervalTest()
 {
 	Calendar c;
 	Calendar d;

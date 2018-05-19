@@ -13,7 +13,7 @@ protected:
         ADD_TEST(CalendarTests::nonoverlappingTest);
         ADD_TEST(CalendarTests::sequentialEventsTest);
         ADD_TEST(CalendarTests::openCalendarTest);
-        ADD_TEST(CalendarTests::closedCalendarTest);
+        ADD_TEST(CalendarTests::impossibleIntervalTest);
         ADD_TEST(CalendarTests::singleOpenIntervalTest);
         ADD_TEST(CalendarTests::overlappingStartTest);
         ADD_TEST(CalendarTests::falseInterval);
@@ -24,7 +24,7 @@ private:
     static bool nonoverlappingTest();
     static bool sequentialEventsTest();
     static bool openCalendarTest();
-    static bool closedCalendarTest();
+    static bool impossibleIntervalTest();
     static bool singleOpenIntervalTest();
     static bool overlappingStartTest();
     static bool falseInterval();
