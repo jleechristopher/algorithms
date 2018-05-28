@@ -14,8 +14,8 @@
 #include <vector>
 #include <algorithm>
 
-#define LEFT 0
-#define RIGHT 1
+#define START 0
+#define END 1
 
 class Calendar
 {
@@ -26,7 +26,7 @@ private:
         {
         }
         int64_t m_time;
-        bool m_endpointSide; // left or right endpoint
+        bool m_endpointSide; // START or END endpoint
     };
 
 public:
@@ -45,9 +45,6 @@ public:
         int64_t m_end_time;
     };
 
-    Calendar()
-    {
-    }
     bool addEvent(const int personId,const int eventId,const int64_t start_time,const int64_t end_time)
     {
         if (contains(personId, eventId))
@@ -73,8 +70,8 @@ public:
         std::vector<Timepoint> times; 
         for (auto& it : m_events)
         {
-            times.push_back(Timepoint(it.m_start_time, LEFT));
-            times.push_back(Timepoint(it.m_end_time, RIGHT));
+            times.push_back(Timepoint(it.m_start_time, START));
+            times.push_back(Timepoint(it.m_end_time, END));
         }
 
         std::sort(times.begin(),times.end(), less);
@@ -82,11 +79,11 @@ public:
         int concurrent = 0;
         for (auto& it : times)
         {
-            if (it.m_endpointSide == LEFT)
+            if (it.m_endpointSide == START)
             {
                 ++concurrent;
             }
-            else // = RIGHT
+            else // = END
             {
                 --concurrent;
             }
@@ -200,11 +197,11 @@ private:
         int concurrent = 0;
         for (int ii = 0; ii < filteredPts.size(); ++ii)
         {
-            if (filteredPts[ii].m_endpointSide == LEFT)
+            if (filteredPts[ii].m_endpointSide == START)
             {
                 ++concurrent;
             }
-            else // = RIGHT
+            else // = END
             {
                 --concurrent;
             }
@@ -221,7 +218,7 @@ private:
                 }
                 else
                 {
-                    // the next endpoint is guaranteed to be a LEFT if we are in a blank interval
+                    // the next endpoint is guaranteed to be a START if we are in a blank interval
                     if (filteredPts[ii+1].m_time - filteredPts[ii].m_time >= duration)
                     {
                         output.push_back(filteredPts[ii].m_time);
@@ -276,8 +273,8 @@ private:
                 {
                     if (it.m_end_time <= between_end)
                     {
-                        filteredPts.push_back(Timepoint(between_start, LEFT)); // make cutoff at between_start
-                        filteredPts.push_back(Timepoint(it.m_end_time, RIGHT));                        
+                        filteredPts.push_back(Timepoint(between_start, START)); // make cutoff at between_start
+                        filteredPts.push_back(Timepoint(it.m_end_time, END));                        
                     }
                     else // event ends after between_start
                     {
@@ -288,13 +285,13 @@ private:
                 {
                     if (it.m_end_time <= between_end)
                     {
-                        filteredPts.push_back(Timepoint(it.m_start_time, LEFT));
-                        filteredPts.push_back(Timepoint(it.m_end_time, RIGHT));                                                
+                        filteredPts.push_back(Timepoint(it.m_start_time, START));
+                        filteredPts.push_back(Timepoint(it.m_end_time, END));                                                
                     }
                     else // event ends after between_end
                     {
-                        filteredPts.push_back(Timepoint(it.m_start_time, LEFT));
-                        filteredPts.push_back(Timepoint(between_end, RIGHT)); // make cutoff at between_end                                                                      
+                        filteredPts.push_back(Timepoint(it.m_start_time, START));
+                        filteredPts.push_back(Timepoint(between_end, END)); // make cutoff at between_end                                                                      
                     }
                 }
             }
@@ -312,9 +309,9 @@ private:
         {
             if (objA.m_endpointSide != objB.m_endpointSide)
             {
-                if (objA.m_endpointSide == LEFT)
+                if (objA.m_endpointSide == END)
                 {
-                    return true; // prioritize LEFT endpoints to appear earlier than RIGHT endpoints
+                    return true; // prioritize END endpoints to appear earlier than START endpoints
                 }
                 return false;
             }

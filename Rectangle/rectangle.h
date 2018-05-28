@@ -49,10 +49,6 @@ struct Rectangle
 class IntersectionFind
 {
 public:
-	IntersectionFind()
-	{
-	}
-
 	Rectangle getInter(const Rectangle& rec1, const Rectangle& rec2)
 	{
 		// future option: flip incorrect variable assignments e.g. if m_rt < m_lt swap(m_rt,m_lt)

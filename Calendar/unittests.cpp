@@ -172,3 +172,13 @@ bool CalendarTests::multipleCalendars()
 	VERIFY_TRUE(bob.findMeetingSlot(5, 1, 50, people) == solution);
 	return true;
 }
+
+bool CalendarTests::startEndOverlap()
+{
+	Calendar bob;
+	VERIFY_TRUE(bob.addEvent(1, 1, 1, 5));
+	VERIFY_TRUE(bob.addEvent(1, 2, 1, 5));
+	VERIFY_TRUE(bob.addEvent(1, 3, 5, 10));
+	VERIFY_EQ(bob.maxCollisions(), 1);
+	return true;	
+}

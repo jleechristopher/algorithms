@@ -21,6 +21,7 @@ protected:
         ADD_TEST(CalendarTests::twoEmpty);
         ADD_TEST(CalendarTests::allEmpty);
         ADD_TEST(CalendarTests::multipleCalendars);
+        ADD_TEST(CalendarTests::startEndOverlap);
     }
 
 private:
@@ -37,6 +38,7 @@ private:
     static bool twoEmpty();
     static bool allEmpty();
     static bool multipleCalendars();
+    static bool startEndOverlap();
 
     static Test_Registrar<CalendarTests> registrar;
 };
