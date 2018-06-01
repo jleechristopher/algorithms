@@ -147,60 +147,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "makefile",
-			"settings":
-			{
-				"buffer_size": 352,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/chris/Desktop/Chris/vaibhav/projects/algorithms/PQ/makefile",
-			"settings":
-			{
-				"buffer_size": 346,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "main.cpp",
-			"settings":
-			{
-				"buffer_size": 76,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "calendar.h",
-			"settings":
-			{
-				"buffer_size": 9704,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "unittests.h",
-			"settings":
-			{
-				"buffer_size": 1480,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "unittests.cpp",
-			"settings":
-			{
-				"buffer_size": 4744,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -272,11 +218,11 @@
 	},
 	"expanded_folders":
 	[
-		"/home/chris/Desktop/Chris/vaibhav/projects/algorithms/Calendar"
+		"/home/chris/Desktop/Chris/vaibhav/projects/algorithms/FreelyOverlappingRectangle"
 	],
 	"file_history":
 	[
-		"/home/chris/Desktop/Chris/vaibhav/projects/algorithms/Calendar/calendar.h",
+		"//apps",
 		"/home/chris/Desktop/Chris/journ",
 		"/home/chris/Desktop/Chris/vaibhav/051718",
 		"/home/chris/Desktop/Chris/vaibhav/projects/algorithms/LimitedMap/unittests.cpp",
@@ -285,7 +231,6 @@
 		"/home/chris/Desktop/Chris/vaibhav/projects/algorithms/LimitedMap/limitedMap.h",
 		"/home/chris/Desktop/Chris/vaibhav/projects/algorithms/LimitedMap/DLLQueue.h",
 		"/home/chris/Desktop/Chris/vaibhav/projects/queues/queues",
-		"//apps",
 		"/home/chris/Desktop/Chris/vaibhav/projects/education/test_tool/test_helpers.h",
 		"/home/chris/Desktop/Chris/vaibhav/projects/vectorized-tree/unittests.cpp",
 		"/home/chris/Desktop/Chris/vaibhav/projects/vectorized-tree/unittests.h",
@@ -403,7 +348,8 @@
 		"/home/chris/tt/my-app/src/App.js",
 		"/home/chris/tt/spinergyweb/testdb.py",
 		"/home/chris/Desktop/Chris/vaibhav/022118",
-		"/home/chris/Desktop/Chris/vaibhav/chapters6.8ato7.10"
+		"/home/chris/Desktop/Chris/vaibhav/chapters6.8ato7.10",
+		"/home/chris/Desktop/Chris/vaibhav/assignments/MyVector.h"
 	],
 	"find":
 	{
@@ -421,9 +367,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"RIGHT",
-			"LEFT",
-			"LimitedMap"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -441,182 +384,8 @@
 	"groups":
 	[
 		{
-			"selected": 3,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "makefile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 352,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								268,
-								268
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Makefile/Makefile.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/chris/Desktop/Chris/vaibhav/projects/algorithms/PQ/makefile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 346,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								346,
-								346
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Makefile/Makefile.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "main.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 76,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "calendar.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9704,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "unittests.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1480,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								902,
-								902
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "unittests.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4744,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								22,
-								22
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -660,7 +429,7 @@
 		"height": 0.0
 	},
 	"pinned_build_system": "",
-	"project": "Calendar.sublime-project",
+	"project": "FreelyOverlappingRectangle.sublime-project",
 	"replace":
 	{
 		"height": 42.0
