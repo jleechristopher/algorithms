@@ -7,13 +7,12 @@
 // The result vertices are then used to construct a new polygon made from those vertices.
 //
 // NEW PATTERNS IMPLEMENTED
-// 1) GTest library used for unit testing
-// 2) Functor with member variable passed in to test whether a vertex is in the upper/lower half
-// 3) Static ID generator used to delineate lines/vertices from different polygons
+// 1) Functor with member variable passed in to test whether a vertex is in the upper/lower half
+// 2) Static ID generator used to delineate lines/vertices from different polygons
 // 
 // Author: Chris Lee
 // Date: June 1st, 2018
-// Last Edited: June 1st, 2018
+// Last Edited: June 3rd, 2018
 
 #ifndef __FO_RECTANGLE_INTERSECTION__
 #define __FO_RECTANGLE_INTERSECTION__

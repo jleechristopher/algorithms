@@ -1,0 +1,89 @@
+-----PROBLEM-----
+Traverse a grid of unknown dimensions, boundaries, and obstacles, touching every tile as few times as possible but at least once.
+
+The robot can do one of 4 actions:
+1) move forward          
+2) scan (L/R/Front)      
+3) clean                 
+4) turn 90 deg clockwise 
+
+-----GOALS-----
+Clean all reachable tiles of floor
+Minimize amount of backtracking (floor we've walked on previously)
+
+-----NONGOALS-----
+All of the following can be added to the list of goals in the future.
+This program does not minimize battery usage. 
+This program does not minimize time spent cleaning.
+This program does not remember rooms it has previously cleaned.
+This program does not account for moving obstacles.
+This program does not accept configuration. Possible configuration includes sensor strength and movement speed. 
+
+-----INTERFACE-----
+Input: A world string. The first line will be the starting position of the robot in the format ROW COLUMN. The lines following will be the "world" drawn out with a combination of walls, floor space, and obstacles. These grid types will be represented by: 
+"|" : wall
+" " : floor space
+"#" : obstacle
+The world portion will have a max width of 100 columns to allow easy visualization in a text editor and no limit on the length. 
+
+Output: A world string. The first line is the number of times each action was taken. The following lines are the world representation. Each floor space is replaced by the number of times the robot touched that space, up to 9.
+
+-----TEST CASES-----
+1) A square room
+2) Hallways
+3) jagged walls (stair shaped)
+3) rooms connected by single doors
+4) rooms connected by several doors
+
+Variations on test cases:
+1) different starting position
+2) different obstacle location
+3) greater/lower density of obstacles 
+4) different sensor strength
+
+-----PLAN-----
+Greedy approach:
+Discover/clean the next closest unexplored/clean tile, with a preference beginning with tiles in the direction we are already facing then going clockwise. If there are any unexplored tiles (L/R/F) we scan, adding the results to the robot's personal map. Otherwise we do a BFS to find the next closest tile then calculate the shortest path to reach it. 
+
+This strategy likes to clean in a swirl shape from the outside to the middle, so it solves the rectangle room efficiently if it starts in a corner. If it starts elsewhere, it will clean subsections of the room in swirls, doing some backtracking to reach the next subsection. 
+
+Advantages over DFS
+-Does not backtrack the entire way to get to the next subsection
+
+-----API-----
+Robot
+Public: 
+	Robot(string& Input)
+	void cleanRoom(string& Output)
+Private:
+	move()
+	scan()
+	clean()
+	turn()
+
+	FloorMap* m_myMap // map discovered by scanning environment
+	FloorMap* m_masterMap // program input
+	int m_myRow
+	int m_myCol
+	int m_ori
+	int m_xMoved // times moved
+	int m_xScanned // .. scanned
+	int m_xCleaned // .. cleaned
+	int m_xTurned // .. turned
+
+Node
+	bool m_impassable // whether or not we can move through this tile
+	int m_touched // times robot moved onto this tile
+	Node* m_n_up // upper neighbor
+	Node* m_n_down // lower neighbor
+	Node* m_n_rt // right neighbor
+	Node* m_n_lt // left neighbor
+
+FloorMap
+	FloorMap(int startRow, int startCol)
+	FloorMap(string& Input)
+	int m_startRow
+	int m_startCol
+	vector<int> scan(int row, int col, int direction, int power) // returns vector of objects in that direction
+	bool addTiles(row, col, direction, int objType)
+	void printMap(stringstream& output)
