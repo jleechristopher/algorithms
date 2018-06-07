@@ -11,7 +11,6 @@ protected:
         ADD_TEST(RoboCleanerUnitTests::square);
         ADD_TEST(RoboCleanerUnitTests::hallway);
         ADD_TEST(RoboCleanerUnitTests::diamond);
-
     }
 
 private:

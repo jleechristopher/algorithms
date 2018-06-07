@@ -86,14 +86,15 @@ bool RoboCleanerUnitTests::hallway()
 
 	return true; 
 }
+
 bool RoboCleanerUnitTests::diamond()
 {
 	std::stringstream input;
 	std::stringstream output;
 	input << "   |   " << std::endl;
-	input << "  |.|  " << std::endl;
+	input << "  |R|  " << std::endl;
 	input << " |...| " << std::endl;
-	input << "|R....|" << std::endl;
+	input << "|.....|" << std::endl;
 	input << " |...| " << std::endl;
 	input << "  |.|  " << std::endl;
 	input << "   |   " << std::endl;
