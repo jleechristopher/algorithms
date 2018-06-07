@@ -6,7 +6,7 @@
 #include <memory> // unique_ptr
 #include <stdexcept> // invalid_argument
 #include <queue>
-#include <iostream>
+#include <iostream> // for turn-by-turn printing
 
 #define UP 0 // These numbers are in clockwise order because the robot can only turn 90 deg to the right 
 #define RIGHT 1

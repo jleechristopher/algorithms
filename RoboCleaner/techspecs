@@ -21,12 +21,12 @@ This program does not accept configuration. Possible configuration includes sens
 
 -----INTERFACE-----
 Input: A world string. The first line will be the starting position of the robot in the format ROW COLUMN. The lines following will be the "world" drawn out with a combination of walls, floor space, and obstacles. These grid types will be represented by: 
-"|" : wall
+"|" : wall/obstacle
 " " : floor space
-"#" : obstacle
+"R" : robot starting space
 The world portion will have a max width of 100 columns to allow easy visualization in a text editor and no limit on the length. 
 
-Output: A world string. The first line is the number of times each action was taken. The following lines are the world representation. Each floor space is replaced by the number of times the robot touched that space, up to 9.
+Output: A world string. The first lines are the number of times each action was taken. The following lines are the world representation. Each floor space is replaced by the number of times the robot touched that space, up to 9.
 
 -----TEST CASES-----
 1) A square room
@@ -53,37 +53,47 @@ Advantages over DFS
 -----API-----
 Robot
 Public: 
-	Robot(string& Input)
-	void cleanRoom(string& Output)
+	Robot(FloorMap& input, bool printTurns) // option to print the resultant map after every round of actions
+	void cleanRoom(string& output)
 Private:
 	move()
 	scan()
 	clean()
 	turn()
+	void addTiles(int startId, int ori) // add tiles after a scan from a start position in the given direction
+	bool bfs() // finds next closest unclean or unscanned tile
+	bool shouldScan() // looks to L/R/Front of the robot to check if scanning will add to the map
+	bool getNextMoves() // runs bfs() to find m_nextTile and puts the shortest path onto m_nextMoves
 
 	FloorMap* m_myMap // map discovered by scanning environment
 	FloorMap* m_masterMap // program input
-	int m_myRow
-	int m_myCol
+	std::vector<int> m_newTiles // store tiles to add from a scan
+	std::vector<int> m_nextMoves // path to get to m_nextTile
+	std::vector<int> m_pathTo // stores path to every node from m_pos during bfs()
+	int m_pos
 	int m_ori
+	int m_searchNum // used to track whether a tile has been looked at previously in a search
+	int m_nextTile // the next destination the robot should move to
 	int m_xMoved // times moved
 	int m_xScanned // .. scanned
 	int m_xCleaned // .. cleaned
 	int m_xTurned // .. turned
+	bool m_printTurns
 
 Node
 	bool m_impassable // whether or not we can move through this tile
+	bool m_isClean
+	int m_id
 	int m_touched // times robot moved onto this tile
-	Node* m_n_up // upper neighbor
-	Node* m_n_down // lower neighbor
-	Node* m_n_rt // right neighbor
-	Node* m_n_lt // left neighbor
+	int m_searchId // used to ID whether a node has been previously looked at in a search
+	std::vector<int> m_neighbors
 
 FloorMap
 	FloorMap(int startRow, int startCol)
 	FloorMap(string& Input)
-	int m_startRow
-	int m_startCol
-	vector<int> scan(int row, int col, int direction, int power) // returns vector of objects in that direction
-	bool addTiles(row, col, direction, int objType)
+	vector<int> scan(int pos, int ori, std::vector<int>& newTiles) // returns vector of objects in that direction
 	void printMap(stringstream& output)
+
+	int m_startPos
+	int m_numRows
+	int m_numCol
