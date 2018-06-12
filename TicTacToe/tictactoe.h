@@ -81,7 +81,7 @@ public:
 	}
 private:
 	std::array<int, NUM_TILES> m_gameBoard;
-	std::array<int, WAYS_TO_WIN> m_moveSums; 
+	std::array<int, WAYS_TO_WIN> m_moveSums;
 	std::stringstream m_output;
 	int m_nextMove;
 	int m_currentPlayer;

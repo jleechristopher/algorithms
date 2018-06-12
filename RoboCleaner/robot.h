@@ -7,6 +7,7 @@
 #include <stdexcept> // invalid_argument
 #include <queue>
 #include <iostream> // for turn-by-turn printing
+#include <array>
 
 #define UP 0 // These numbers are in clockwise order because the robot can only turn 90 deg to the right 
 #define RIGHT 1
@@ -30,7 +31,6 @@ private:
 		m_isClean{false},
 		m_impassable{impassable}
 		{
-			m_neighbors.resize(4);
 			m_neighbors[UP] = 0;
 			m_neighbors[DOWN] = 0;
 			m_neighbors[LEFT] = 0;
@@ -43,7 +43,6 @@ private:
 		m_isClean{n.m_isClean},
 		m_impassable{n.m_impassable}
 		{
-			m_neighbors.resize(4);
 			m_neighbors[UP] = 0;
 			m_neighbors[DOWN] = 0;
 			m_neighbors[LEFT] = 0;
@@ -55,7 +54,7 @@ private:
 		int m_searchId; // used to ID whether a node has been previously looked at in a search
 		bool m_isClean;
 		bool m_impassable; // whether or not we can move through this tile
-		std::vector<int> m_neighbors;	
+		std::array<int, NUM_ORI> m_neighbors;	
 		friend FloorMap;
 		friend RoboCleaner;
 	};
